@@ -1,0 +1,113 @@
+<div class="panel-layout">
+  <!-- COLUMNA IZQUIERDA: TABLA CRUD -->
+  <div class="panel-tabla">
+    <h2>Operaciones CRUD</h2>
+
+    <table class="tabla-productos">
+      <thead>
+        <tr>
+          <th>Imagen</th>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (prod of productos(); track $index) {
+          <tr>
+            <td>
+              <img [src]="prod.image" [alt]="prod.title" class="miniatura" />
+            </td>
+            <td>{{ prod.title }}</td>
+            <td>{{ prod.category }}</td>
+            <td class="acciones">
+              <button class="btn btn-borrar" (click)="borrarProducto(prod.id)">Borrar</button>
+              <button class="btn btn-actualizar" (click)="actualizarProducto(prod)">Actualizar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="4" class="sin-datos">Cargando productos...</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COLUMNA DERECHA: FORMULARIO CREATE / UPDATE -->
+  <div class="panel-formulario">
+    <h2>{{ editingId() === null ? 'Nuevo producto' : 'Editar producto #' + editingId() }}</h2>
+
+    <form (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="title">Título</label>
+        <input
+          id="title"
+          name="title"
+          class="form-input"
+          [(ngModel)]="form.title"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="price">Precio</label>
+        <input
+          id="price"
+          name="price"
+          type="number"
+          min="0"
+          step="0.01"
+          class="form-input"
+          [(ngModel)]="form.price"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="category">Categoría</label>
+        <select
+          id="category"
+          name="category"
+          class="form-input"
+          [(ngModel)]="form.category"
+          required
+        >
+          <option value="">Selecciona una categoría</option>
+          @for (cat of categories() ?? []; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="image">URL de la imagen</label>
+        <input
+          id="image"
+          name="image"
+          type="url"
+          class="form-input"
+          [(ngModel)]="form.image"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea
+          id="description"
+          name="description"
+          rows="3"
+          class="form-input"
+          [(ngModel)]="form.description"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-guardar">Guardar</button>
+
+      @if (editingId() !== null) {
+        <button type="button" class="btn btn-cancelar" (click)="cancel()">Cancelar</button>
+      }
+    </form>
+  </div>
+</div>

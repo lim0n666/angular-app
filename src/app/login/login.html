@@ -1,0 +1,16 @@
+<div class="login-wrapper">
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="submit()">
+    <h2>Iniciar Sesión</h2>
+    
+    <input type="text" formControlName="username" placeholder="Usuario">
+    <input type="password" formControlName="password" placeholder="Contraseña">
+    
+    @if(error()) {
+      <p class="error">{{ error() }}</p>
+    }
+    
+    <button type="submit" [disabled]="loading()">
+      {{ loading() ? 'Ingresando..' : 'Ingresar' }}
+    </button>
+  </form>
+</div>

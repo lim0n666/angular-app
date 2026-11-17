@@ -1,0 +1,18 @@
+<div class="catalogo-container">
+  @for (producto of productos(); track producto.id) {
+    <div class="card-producto">
+      <div class="img-wrapper">
+        <img [src]="producto.image" [alt]="producto.title">
+      </div>
+      
+      <span class="categoria">{{ producto.category }}</span>
+      <h3 class="titulo">{{ producto.title }}</h3>
+      <p class="descripcion">{{ producto.description }}</p>
+      
+      <div class="footer-card">
+        <span class="precio">${{ producto.price }}</span>
+        <button class="btn-comprar">Agregar</button>
+      </div>
+    </div>
+  }
+</div>
